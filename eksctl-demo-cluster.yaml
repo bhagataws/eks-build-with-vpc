@@ -1,0 +1,63 @@
+--- 
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: demo
+  version: "1.32"
+  region: ap-south-1
+
+vpc:
+  id: "vpc-00748de4776f35ec5"  
+  cidr: "10.0.0.0/16"       
+  subnets:
+    public:
+      ap-south-1a:
+        id: "subnet-0b39975d448844cb7" 
+        cidr: "10.0.1.0/24"
+      ap-south-1b:
+        id: "subnet-02cb478cebbc65f06"
+        cidr: "10.0.2.0/24"
+    private:
+      ap-south-1a:
+        id: "subnet-05dc55c6f697479e8"
+        cidr: "10.0.8.0/24"
+
+      ap-south-1b:
+        id: "subnet-0a9ccb95f767cc783"
+        cidr: "10.0.9.0/24" 
+iam:
+  withOIDC: true
+managedNodeGroups:
+  - name: ng1-public
+    instanceType: m5.large
+    minSize: 2
+    maxSize: 3
+    volumeSize: 100
+    volumeType: gp3
+    amiFamily: AmazonLinux2023
+    # defaults to true, which enforces the use of IMDSv2 tokens
+    disableIMDSv1: true
+    labels:
+      nodegroup-type: frontend-workloads
+    iam:
+      withAddonPolicies:
+        autoScaler: true
+        imageBuilder: true
+        externalDNS: true
+        certManager: true
+        appMesh: true
+        appMeshPreview: true
+        ebs: true
+        fsx: true
+        efs: true
+        awsLoadBalancerController: true
+        xRay: true
+        cloudWatch: true
+addons:
+  - name: vpc-cni
+  - name: coredns
+  - name: kube-proxy
+  - name: aws-ebs-csi-driver
+  - name: aws-efs-csi-driver
+  - name: aws-load-balancer-controller

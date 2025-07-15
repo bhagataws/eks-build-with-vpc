@@ -6,6 +6,8 @@ resource "aws_subnet" "public-zone1" {
 
   tags = {
     Name = "${local.environment}-${local.eks_cluster_name}-zone1-public1"
+    "kubernetes.io/role/elb" = "1"
+    "kubernetes.io/cluster/${local.eks_cluster_name}" = "shared"
   }
 }
 resource "aws_subnet" "public-zone2" {
@@ -16,6 +18,8 @@ resource "aws_subnet" "public-zone2" {
 
   tags = {
     Name = "${local.environment}-${local.eks_cluster_name}-zone1-public2"
+    "kubernetes.io/role/elb" = "1"
+    "kubernetes.io/cluster/${local.eks_cluster_name}" = "shared"
   }
 }
 
