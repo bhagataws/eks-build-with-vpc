@@ -65,4 +65,10 @@ resource "aws_eks_addon" "addons" {
   addon_name        = each.value.name
   addon_version     = each.value.version
   resolve_conflicts_on_update = "OVERWRITE"
+
+    depends_on = [
+    aws_iam_role_policy_attachment.example-AmazonEKSWorkerNodePolicy,
+    aws_iam_role_policy_attachment.example-AmazonEKS_CNI_Policy,
+    aws_iam_role_policy_attachment.example-AmazonEC2ContainerRegistryReadOnly,
+  ]
 }
