@@ -56,7 +56,6 @@ managedNodeGroups:
         cloudWatch: true
 addons:
   - name: vpc-cni
-  - name: coredns
   - name: kube-proxy
   - name: aws-ebs-csi-driver
   - name: aws-efs-csi-driver
